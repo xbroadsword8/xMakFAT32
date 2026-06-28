@@ -6,3 +6,6 @@ Cargo.lock
 .vs/
 *.user
 *.suo
+
+# 開發工具暫存（session/log）
+.dragon/
