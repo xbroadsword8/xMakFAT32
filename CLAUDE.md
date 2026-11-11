@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Windows-only GUI tool for formatting USB drives (32GB–2TB) to FAT32. Built with Rust and raw Win32 API — no third-party GUI framework.
+Windows-only GUI + CLI tool for formatting USB drives and SSDs (64MB–2TB) to FAT32 (MBR, single partition). Originally built for RME DURec recording media. Built with Rust and raw Win32 API — no third-party GUI framework.
 
 ## Build Commands
 
@@ -25,7 +25,14 @@ cargo test -p fat32-core
 cargo test -p fat32-core test_name
 ```
 
-> **Note:** The codebase targets Windows (`cfg(windows)`). Compilation on Linux will skip the `windows` crate dependencies and any Win32-dependent code.
+> **Note:** The codebase targets Windows (`cfg(windows)`). Compilation on Linux will skip the `windows` crate dependencies and any Win32-dependent code — so `cargo test` on Linux being green says nothing about the Windows build (until 2026-11-11 the GUI had never compiled for Windows). Always also cross-compile from Linux:
+>
+> ```bash
+> cargo build --release --target x86_64-pc-windows-gnu   # → target/x86_64-pc-windows-gnu/release/{fat32-gui,fat32-cli}.exe
+> ```
+>
+> `fat32-gui/build.rs` embeds `app.manifest` (requireAdministrator + Common Controls v6) via mingw `windres`.
+> Real-device testing: on a Windows test machine (admin shell) create a VHD with diskpart (`create vdisk ... type=expandable`, `attach vdisk`) and run `fat32-cli.exe --list --include-virtual` / `--format N --include-virtual --yes`; verify with `chkdsk`. Never target a real disk in tests.
 
 ## Architecture
 
@@ -50,7 +57,7 @@ fat32-gui/    — Win32 GUI binary, depends on fat32-core
 
 ### fat32-gui
 
-Pure Win32 API GUI (`windows` crate bindings). Entry point is `fat32-gui/src/main.rs`. Logging via `env_logger` (set `RUST_LOG=debug` to enable).
+Pure Win32 API GUI (`windows` crate bindings). `src/winio.rs` holds all Windows disk I/O (enumerate USB/SD disks incl. SSDs while excluding the system disk, lock+dismount volumes, `\\.\PhysicalDriveN` read/write, `format_disk`). `src/main.rs` is the GUI; `src/bin/fat32-cli.rs` is a CLI over the same layer (used for remote testing).
 
 ## Key Constraints
 

@@ -10,7 +10,7 @@ pub mod scan;
 pub mod format;
 pub mod device;
 
-pub use error::FormatError;
-pub use format::Formatter;
+pub use error::{FormatError, ProgressCallback, ConsoleProgress};
+pub use format::{Formatter, FormatConfig};
 pub use scan::BadBlockScanner;
 pub use device::DeviceIO;

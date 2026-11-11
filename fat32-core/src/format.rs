@@ -163,7 +163,22 @@ impl<D: DeviceIO, P: ProgressCallback> Formatter<D, P> {
         // ---- 步驟 5: 寫入 MBR ----
         self.report("寫入 MBR", 0, 1);
         let mbr = Mbr::new(partition_sectors);
-        self.device.write_sectors(Self::MBR_LBA, &mbr.to_bytes())?;
+        let mut mbr_bytes = mbr.to_bytes().to_vec();
+        // 磁碟簽章（offset 440，4 bytes）：Windows 用來辨識 MBR 磁碟，全 0 會被當成未初始化
+        let sig = (Self::generate_volume_serial() | 1).to_le_bytes();
+        mbr_bytes[440..444].copy_from_slice(&sig);
+        self.device.write_sectors(Self::MBR_LBA, &mbr_bytes)?;
+
+        // 清除 LBA 1 ~ 分割區起點之間的殘留（主 GPT 標頭與分割表在 LBA 1~33），
+        // 以及磁碟最後 33 個 sector（備份 GPT）。殘留的 GPT 會讓部分裝置（如 RME DURec）
+        // 把磁碟誤判為 GPT 而拒絕使用。
+        let gap = vec![0u8; ((Self::PARTITION_START_LBA - 1) * sector_size) as usize];
+        self.device.write_sectors(1, &gap)?;
+        let tail_sectors = 33u64.min(total_sectors - data_start_lba);
+        if tail_sectors > 0 {
+            let tail = vec![0u8; (tail_sectors * sector_size) as usize];
+            self.device.write_sectors(total_sectors - tail_sectors, &tail)?;
+        }
         self.report("寫入 MBR", 1, 1);
 
         // ---- 步驟 6: 寫入 Boot Sector ----
@@ -220,7 +235,7 @@ impl<D: DeviceIO, P: ProgressCallback> Formatter<D, P> {
 
         // 初始化 FAT: 每個 entry 4 bytes (little-endian)
         // Entry 0: media descriptor
-        Self::set_fat_entry(&mut fat, 0, MEDIA_DESCRIPTOR as u32 | 0x0FFFFFF00);
+        Self::set_fat_entry(&mut fat, 0, MEDIA_DESCRIPTOR as u32 | 0x0FFFFF00);
         // Entry 1: EOC (dirty volume flag / reserved)
         Self::set_fat_entry(&mut fat, 1, FAT32_EOC);
         // Entry 2 (root dir): EOC
