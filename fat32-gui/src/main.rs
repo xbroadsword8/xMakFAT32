@@ -1,4 +1,4 @@
-//! FAT32 格式化工具 — Windows GUI 應用程式
+//! xMakFAT32 — Windows GUI 應用程式
 //!
 //! 基於 Win32 API 的原生圖形化介面：選擇外接磁碟（隨身碟、SSD、行動硬碟）、
 //! 設定標籤與叢集大小、顯示進度。磁碟 I/O 在 winio.rs。
@@ -443,7 +443,7 @@ mod windows_gui {
             let hwnd = match CreateWindowExW(
                 Default::default(),
                 class_name,
-                w!("FAT32 格式化工具（RME DURec 用）"),
+                w!("xMakFAT32 — FAT32 格式化工具"),
                 WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
                 CW_USEDEFAULT,
                 CW_USEDEFAULT,

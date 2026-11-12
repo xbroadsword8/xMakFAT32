@@ -3,6 +3,7 @@ name = "fat32-gui"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
+autobins = false
 repository.workspace = true
 description.workspace = true
 
@@ -14,3 +15,14 @@ env_logger.workspace = true
 
 [target.'cfg(windows)'.dependencies]
 windows.workspace = true
+
+[package.metadata]
+display-name = "xMakFAT32"
+
+[[bin]]
+name = "xMakFAT32"
+path = "src/main.rs"
+
+[[bin]]
+name = "xMakFAT32-cli"
+path = "src/bin/fat32-cli.rs"

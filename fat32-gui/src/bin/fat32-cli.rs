@@ -1,8 +1,8 @@
-//! FAT32 格式化工具 — 命令列版（測試與進階使用）
+//! xMakFAT32 — 命令列版（測試與進階使用）
 //!
 //! 用法：
-//!   fat32-cli --list [--include-virtual]
-//!   fat32-cli --format <磁碟編號> [--label NAME] [--cluster-kb 32] [--full] [--include-virtual] --yes
+//!   xMakFAT32-cli --list [--include-virtual]
+//!   xMakFAT32-cli --format <磁碟編號> [--label NAME] [--cluster-kb 32] [--full] [--include-virtual] --yes
 
 #[cfg(windows)]
 #[path = "../winio.rs"]
@@ -38,7 +38,7 @@ fn main() {
         return;
     }
     let Some(num) = val("--format").and_then(|s| s.parse::<u32>().ok()) else {
-        eprintln!("用法：fat32-cli --list | --format <磁碟編號> [--label NAME] [--cluster-kb N] [--full] --yes");
+        eprintln!("用法：xMakFAT32-cli --list | --format <磁碟編號> [--label NAME] [--cluster-kb N] [--full] --yes");
         std::process::exit(2);
     };
     let Some(disk) = disks.iter().find(|d| d.number == num) else {

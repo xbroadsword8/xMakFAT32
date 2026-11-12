@@ -1,6 +1,6 @@
-# FAT32 格式化工具
+# xMakFAT32
 
-在 Windows 上把 USB 隨身碟、外接 SSD（最大 2TB）格式化成 **FAT32** 的小工具。
+**xMakFAT32** 是在 Windows 上把 USB 隨身碟、外接 SSD（最大 2TB）格式化成 **FAT32** 的小工具。
 
 ## 為什麼做這個工具
 
@@ -22,10 +22,10 @@ DURec 對磁碟格式的要求和本工具的預設值一致：MBR、FAT32、使
 
 ## 下載與使用
 
-從 [Releases](https://github.com/xbroadsword8/fat32-formatter/releases) 下載 zip，解壓縮後：
+從 [Releases](https://github.com/xbroadsword8/xMakFAT32/releases) 下載 zip，解壓縮後：
 
 1. 插上要格式化的磁碟。
-2. 雙擊 `fat32-gui.exe`，Windows 會詢問是否允許變更（需要系統管理員權限才能寫入磁碟），按「是」。
+2. 雙擊 `xMakFAT32.exe`，Windows 會詢問是否允許變更（需要系統管理員權限才能寫入磁碟），按「是」。
 3. 在「目標磁碟」選擇磁碟。清單只列出 USB／SD 外接磁碟，**不會列出系統碟**；沒看到就按「重新整理」。
 4. 叢集大小用預設 32KB 即可；標籤可留空（英文大寫、數字，最多 11 字元）。
 5. 按「開始格式化」，在確認框確認磁碟後按「是」。快速格式化只需幾秒。
@@ -34,11 +34,11 @@ DURec 對磁碟格式的要求和本工具的預設值一致：MBR、FAT32、使
 
 ### 命令列版
 
-`fat32-cli.exe` 使用同一套格式化程式碼，適合腳本或遠端操作（需在系統管理員終端機執行）：
+`xMakFAT32-cli.exe` 使用同一套格式化程式碼，適合腳本或遠端操作（需在系統管理員終端機執行）：
 
 ```text
-fat32-cli --list                       列出可格式化的磁碟
-fat32-cli --format <磁碟編號> --yes    格式化
+xMakFAT32-cli --list                       列出可格式化的磁碟
+xMakFAT32-cli --format <磁碟編號> --yes    格式化
     [--label NAME]                     磁碟區標籤
     [--cluster-kb N]                   叢集大小（KB，預設自動；RME 建議 32）
     [--full]                           完整格式化（掃描壞軌，耗時很久）
@@ -64,7 +64,7 @@ cargo build --release
 cargo build --release --target x86_64-pc-windows-gnu
 ```
 
-產出 `fat32-gui.exe` 與 `fat32-cli.exe`。`cargo test` 執行核心引擎（`fat32-core`）的測試。
+產出 `xMakFAT32.exe` 與 `xMakFAT32-cli.exe`。`cargo test` 執行核心引擎（`fat32-core`）的測試。
 
 ### 專案結構
 

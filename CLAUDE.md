@@ -28,11 +28,11 @@ cargo test -p fat32-core test_name
 > **Note:** The codebase targets Windows (`cfg(windows)`). Compilation on Linux will skip the `windows` crate dependencies and any Win32-dependent code — so `cargo test` on Linux being green says nothing about the Windows build (until 2026-11-11 the GUI had never compiled for Windows). Always also cross-compile from Linux:
 >
 > ```bash
-> cargo build --release --target x86_64-pc-windows-gnu   # → target/x86_64-pc-windows-gnu/release/{fat32-gui,fat32-cli}.exe
+> cargo build --release --target x86_64-pc-windows-gnu   # → target/x86_64-pc-windows-gnu/release/{xMakFAT32,xMakFAT32-cli}.exe
 > ```
 >
 > `fat32-gui/build.rs` embeds `app.manifest` (requireAdministrator + Common Controls v6) via mingw `windres`.
-> Real-device testing: on a Windows test machine (admin shell) create a VHD with diskpart (`create vdisk ... type=expandable`, `attach vdisk`) and run `fat32-cli.exe --list --include-virtual` / `--format N --include-virtual --yes`; verify with `chkdsk`. Never target a real disk in tests.
+> Real-device testing: on a Windows test machine (admin shell) create a VHD with diskpart (`create vdisk ... type=expandable`, `attach vdisk`) and run `xMakFAT32-cli.exe --list --include-virtual` / `--format N --include-virtual --yes`; verify with `chkdsk`. Never target a real disk in tests.
 
 ## Architecture
 
