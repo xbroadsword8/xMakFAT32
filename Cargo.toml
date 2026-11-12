@@ -9,6 +9,8 @@ members = [
 version = "0.1.0"
 edition = "2021"
 license = "PolyForm-Noncommercial-1.0.0"
+repository = "https://github.com/xbroadsword8/fat32-formatter"
+description = "Format USB drives and SSDs up to 2TB as FAT32 (MBR, single partition) on Windows"
 
 [workspace.dependencies]
 windows = { version = "0.58", features = [
