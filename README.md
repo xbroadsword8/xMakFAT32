@@ -1,5 +1,9 @@
 # xMakFAT32
 
+[![下載 xMakFAT32](https://img.shields.io/github/v/release/xbroadsword8/xMakFAT32?label=%E4%B8%8B%E8%BC%89%20Windows%20%E7%89%88&style=for-the-badge&logo=windows)](https://github.com/xbroadsword8/xMakFAT32/releases/latest)
+
+免安裝：下載 zip、解壓縮，雙擊 `xMakFAT32.exe` 即可使用。
+
 **xMakFAT32** 是在 Windows 上把 USB 隨身碟、外接 SSD（最大 2TB）格式化成 **FAT32** 的小工具。
 
 ## 為什麼做這個工具
