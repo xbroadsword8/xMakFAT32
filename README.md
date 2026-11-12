@@ -1,5 +1,7 @@
 # xMakFAT32
 
+[English](README.en.md) | [繁體中文](README.md)
+
 [![下載 xMakFAT32](https://img.shields.io/github/v/release/xbroadsword8/xMakFAT32?label=%E4%B8%8B%E8%BC%89%20Windows%20%E7%89%88&style=for-the-badge&logo=windows)](https://github.com/xbroadsword8/xMakFAT32/releases/latest)
 
 免安裝：下載 zip、解壓縮，雙擊 `xMakFAT32.exe` 即可使用。
@@ -41,11 +43,11 @@ DURec 對磁碟格式的要求和本工具的預設值一致：MBR、FAT32、使
 `xMakFAT32-cli.exe` 使用同一套格式化程式碼，適合腳本或遠端操作（需在系統管理員終端機執行）：
 
 ```text
-xMakFAT32-cli --list                       列出可格式化的磁碟
-xMakFAT32-cli --format <磁碟編號> --yes    格式化
-    [--label NAME]                     磁碟區標籤
-    [--cluster-kb N]                   叢集大小（KB，預設自動；RME 建議 32）
-    [--full]                           完整格式化（掃描壞軌，耗時很久）
+xMakFAT32-cli --list                        列出可格式化的磁碟
+xMakFAT32-cli --format <磁碟編號> --yes     格式化
+    [--label NAME]                          磁碟區標籤
+    [--cluster-kb N]                        叢集大小（KB，預設自動；RME 建議 32）
+    [--full]                                完整格式化（掃描壞軌，耗時很久）
 ```
 
 ## 限制
